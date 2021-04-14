@@ -1,3 +1,6 @@
+'''
+    系统工具函数
+'''
 import time
 #获取当前时间
 def get_time():
