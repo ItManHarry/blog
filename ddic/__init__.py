@@ -2,6 +2,7 @@ from flask import Flask,render_template
 from ddic.exts import bootstrap,moment,mail,ckeditor,db
 from ddic.settings import config
 from ddic.views.board import bp_board
+import click
 #创建Flask实例
 def create_app(config_name=None):
     if config_name == None:
@@ -20,6 +21,8 @@ def create_app(config_name=None):
     register_extensions(app)
     # 注册shell环境
     register_shell_context(app)
+    # 注册自定义命令
+    register_web_command(app)
     # 注册系统各个模块
     register_web_views(app)
     return app
@@ -59,3 +62,11 @@ def register_shell_context(app):
 #注册系统各个模块
 def register_web_views(app):
     app.register_blueprint(bp_board, url_prefix='/board')
+
+#注册自定义命令
+def register_web_command(app):
+    @app.cli.command()
+    def initdb():
+        from ddic.models import TbMessage
+        db.create_all()
+        click.echo('数据库初始化完成！！！')
