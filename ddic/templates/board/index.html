@@ -18,7 +18,9 @@
     <div class="row">
         <div class="col">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <small>留言已发布!!!</small>
+              {% for message in get_flashed_messages() %}
+                <small>{{message}}</small>
+              {% endfor %}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>

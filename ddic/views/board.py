@@ -15,7 +15,7 @@ def index():
         message = TbMessage(id=uuid.uuid4().hex, title=form.title.data, body=form.body.data)
         db.session.add(message)
         db.session.commit()
-        flash('消息已发布!!!')
+        flash('留言已发布!!!')
         return redirect(
             url_for('.index'))  # 重定向index视图,获取最新数据,使用蓝本，url_for需要将endpoint添加完整"board.index"，本蓝本内加点即可".index"
     return render_template('board/index.html', form=form, messages=messages)
