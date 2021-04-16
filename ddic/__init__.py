@@ -43,7 +43,7 @@ def register_web_errors(app):
     @app.errorhandler(500)
     def inner_error(e):
         return render_template('errors/500.html'), 500
-#注册全局函数
+#注册全局函数&变量
 def register_template_globals(app):
     from ddic.utils import get_time
     app.jinja_env.globals['get_time'] = get_time
