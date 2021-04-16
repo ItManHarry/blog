@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}作者信息维护{% endblock %}
+<header>
+    {% block header %}
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1><a href = "{{url_for('author.edit')}}">作者-编辑</a></h1>
+                    <small>Administrator : {{ admin_name }}</small>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</header>
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col text-end">
+            <a href = "{{ url_for('author.index') }}" class="btn btn-outline-success"><i class="fas fa-arrow-left"></i>&nbsp;返回列表</a>
+        </div>
+    </div><br>
+    {% if get_flashed_messages() %}
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {% for message in get_flashed_messages() %}
+                <small>{{ message }}</small>
+              {% endfor %}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col">
+          <form method="post">
+              <!-- 表单必须填写csrf验证，否则验证会一直无法通过！！！ -->
+              {{ form.csrf_token }}
+              <div class="mb-3">
+                  {{ form.name.label(class='form-label')}}
+                  {{ form.name(class='form-control',placeholder='请输入姓名!')}}
+                  {% if form.name.errors %}
+                    {% for error in form.name.errors %}
+                        <small class="text-warning">{{ error }}</small>
+                    {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="mb-3">
+                  {{ form.phone.label(class='form-label')}}
+                  {{ form.phone(class='form-control',placeholder='请输入手机号!')}}
+                  {% if form.phone.errors %}
+                    {% for error in form.phone.errors %}
+                        <small class="text-warning">{{ error }}</small>
+                    {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="mb-3">
+                  <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i>&nbsp;&nbsp;保存</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+              {{ form.id() }}
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<script>
+    {% block function%}
+    {{ super() }}
+
+    {% endblock %}
+</script>
