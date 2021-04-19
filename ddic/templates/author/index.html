@@ -62,8 +62,8 @@
                 <tr>
                   <th scope="col" width="10%">#</th>
                   <th scope="col" width="30%">姓名</th>
-                  <th scope="col" width="45%">手机号</th>
-                  <th scope="col" width="15%">Action</th>
+                  <th scope="col" width="35%">手机号</th>
+                  <th scope="col" width="25%">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,6 +75,7 @@
                       <td>
                           <a href="{{ url_for('author.edit', id=author.id) }}" class="btn btn-outline-success btn-sm"><i class="fas fa-edit"></i>&nbsp;编辑</a>
                           <a href="{{ url_for('author.delete', id=author.id)}}" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i>&nbsp;删除</a>
+                          <a href="{{ url_for('article.index', authorid=author.id)}}" class="btn btn-outline-info btn-sm"><i class="fas fa-trash-alt"></i>&nbsp;文章</a>
                       </td>
                     </tr>
                 {% endfor %}

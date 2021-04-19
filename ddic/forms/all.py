@@ -9,4 +9,5 @@ class AuthorForm(FlaskForm):
 class ArticleForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired('请输入文章标题!'), Length(5,20,'长度要介于(5-20)！')])
     body = TextAreaField('正文', validators=[DataRequired('请输入正文!')])
-    id = HiddenField()
+    id = HiddenField()             #文章id
+    author_id = HiddenField()      #作者id

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}文章信息维护{% endblock %}
+<header>
+    {% block header %}
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1><a href = "{{url_for('author.index')}}">文章列表</a></h1>
+                    <small class="text-secondary">作者 : {{ author.name }}</small>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</header>
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col text-end">
+            <a href = "#" class="btn btn-outline-primary"><i class="fas fa-plus"></i>&nbsp;新增</a>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col" width="10%">#</th>
+                  <th scope="col" width="70%">标题</th>
+                  <th scope="col" width="20%">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for article in articles%}
+                    <tr>
+                      <th scope="row">{{ loop.index }}</th>
+                      <td>{{ article.title }}</td>
+                      <td>
+                          <a href="#" class="btn btn-outline-success btn-sm"><i class="fas fa-edit"></i>&nbsp;编辑</a>
+                          <a href="#" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i>&nbsp;删除</a>
+                      </td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<script>
+    {% block function%}
+    {{ super() }}
+
+    {% endblock %}
+</script>

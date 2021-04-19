@@ -3,6 +3,7 @@ from ddic.exts import bootstrap,moment,mail,ckeditor,db
 from ddic.settings import config
 from ddic.views.board import bp_board
 from ddic.views.author import bp_author
+from ddic.views.article import bp_article
 import click
 #创建Flask实例
 def create_app(config_name=None):
@@ -64,6 +65,7 @@ def register_shell_context(app):
 def register_web_views(app):
     app.register_blueprint(bp_board, url_prefix='/board')
     app.register_blueprint(bp_author, url_prefix='/author')
+    app.register_blueprint(bp_article, url_prefix='/article')
 
 #注册自定义命令
 def register_web_command(app):
