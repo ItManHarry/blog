@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col text-center">
-                    <h1><a href = "{{url_for('author.index')}}">文章列表</a></h1>
+                    <h1><a href = "{{url_for('article.index', authorid=author.id)}}">文章列表</a></h1>
                     <small class="text-secondary">作者 : {{ author.name }}</small>
                 </div>
             </div>
@@ -16,7 +16,7 @@
 <div class="container">
     <div class="row">
         <div class="col text-end">
-            <a href = "#" class="btn btn-outline-primary"><i class="fas fa-plus"></i>&nbsp;新增</a>
+            <a href = "{{ url_for('article.add', authorid=author.id) }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i>&nbsp;新增</a>
         </div>
     </div><br>
     <div class="row">

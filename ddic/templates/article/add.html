@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}新增文章{% endblock %}
+<header>
+    {% block header %}
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1><a href = "{{url_for('article.add', authorid=author.id)}}">新增文章</a></h1>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</header>
+{% block main %}
+<div class="container">
+    {% if get_flashed_messages() %}
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {% for message in get_flashed_messages() %}
+                <small>{{message}}</small>
+              {% endfor %}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col">
+          <form method="post">
+              <!-- 表单必须填写csrf验证，否则验证会一直无法通过！！！ -->
+              {{ form.csrf_token }}
+              <div class="mb-3">
+                  {{ form.title.label(class='form-label')}}
+                  {{ form.title(class='form-control',placeholder='请输入标题!')}}
+                  {% if form.title.errors %}
+                    {% for error in form.title.errors %}
+                        <small class="text-warning">{{ error }}</small>
+                    {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="mb-3">
+                  {{ form.body.label(class='form-label')}}
+                  {{ form.body(class='form-control',placeholder='请输入正文!',row='5')}}
+                  {% if form.body.errors %}
+                    {% for error in form.body.errors %}
+                        <small class="text-warning">{{ error }}</small>
+                    {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="mb-3">
+                  <button class="btn btn-outline-primary" type="submit"><i class="fas fa-cloud-upload-alt"></i>&nbsp;&nbsp;发布</button>
+                  <a href = "{{ url_for('article.index', authorid=author.id) }}" class="btn btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;返回</a>
+              </div>
+              {{ form.author_id() }}
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<script>
+    {% block function%}
+
+    {% endblock %}
+</script>

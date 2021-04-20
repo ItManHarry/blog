@@ -14,3 +14,16 @@ def index():
     author = TbAuthor.query.get(author_id)
     articles = author.articles
     return render_template('article/index.html',articles=articles,author=author)
+@bp_article.route('/add', methods=['GET','POST'])
+def add():
+    form = ArticleForm()
+    author_id = request.args.get('authorid')
+    author = TbAuthor.query.get(author_id)
+    form.author_id.data = author_id
+    if form.validate_on_submit():
+        article = TbArticle(id=uuid.uuid4().hex,title=form.title.data,body=form.body.data,author_id=form.author_id.data)
+        db.session.add(article)
+        db.session.commit()
+        flash('文章发布成功!')
+        return redirect(url_for('.add',authorid=form.author_id.data))
+    return render_template('article/add.html', form=form,author=author)
