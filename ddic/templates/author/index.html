@@ -75,9 +75,9 @@
                       <td>{{ author.phone }}</td>
                       <td>{{ author.articles|length }}</td>
                       <td>
+                          <a href="{{ url_for('article.index', authorid=author.id)}}" class="btn btn-outline-info btn-sm"><i class="fas fa-file-alt"></i>&nbsp;文章</a>
                           <a href="{{ url_for('author.edit', id=author.id) }}" class="btn btn-outline-success btn-sm"><i class="fas fa-edit"></i>&nbsp;编辑</a>
                           <a href="{{ url_for('author.delete', id=author.id)}}" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i>&nbsp;删除</a>
-                          <a href="{{ url_for('article.index', authorid=author.id)}}" class="btn btn-outline-info btn-sm"><i class="fas fa-file-alt"></i>&nbsp;文章</a>
                       </td>
                     </tr>
                 {% endfor %}
