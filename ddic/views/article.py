@@ -27,3 +27,22 @@ def add():
         flash('文章发布成功!')
         return redirect(url_for('.add',authorid=form.author_id.data))
     return render_template('article/add.html', form=form,author=author)
+@bp_article.route('/edit', methods=['GET','POST'])
+def edit():
+    form = ArticleForm()
+    if request.method == 'GET':
+        id = request.args.get('id')
+        article = TbArticle.query.get(id)
+        author = TbAuthor.query.get(article.author_id)
+        form.title.data = article.title
+        form.body.data = article.body
+        form.id.data = id
+        form.author_id.data = article.author_id
+    if form.validate_on_submit():
+        article = TbArticle.query.get(form.id.data)
+        article.title = form.title.data
+        article.body = form.body.data
+        db.session.commit()
+        flash('修改成功!')
+        return redirect(url_for('.edit', id=form.id.data))
+    return render_template('article/edit.html', form=form, author=author)

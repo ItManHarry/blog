@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}新增文章{% endblock %}
+{% block title %}修改文章{% endblock %}
 <header>
     {% block header %}
         <div class="container">
             <div class="row">
                 <div class="col text-center">
-                    <h1><a href = "{{url_for('article.add', authorid=author.id)}}">新增文章</a></h1>
+                    <h1><a href = "{{url_for('article.edit', id=form.id)}}">修改文章</a></h1>
                 </div>
             </div>
         </div>
@@ -52,6 +52,7 @@
                   <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i>&nbsp;&nbsp;保存</button>
                   <a href = "{{ url_for('article.index', authorid=author.id) }}" class="btn btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;返回</a>
               </div>
+              {{ form.id() }}
               {{ form.author_id() }}
           </form>
         </div>
