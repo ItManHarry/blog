@@ -33,7 +33,6 @@ def edit():
     if request.method == 'GET':
         id = request.args.get('id')
         article = TbArticle.query.get(id)
-        author = TbAuthor.query.get(article.author_id)
         form.title.data = article.title
         form.body.data = article.body
         form.id.data = id
@@ -45,7 +44,7 @@ def edit():
         db.session.commit()
         flash('修改成功!')
         return redirect(url_for('.edit', id=form.id.data))
-    return render_template('article/edit.html', form=form, author=author)
+    return render_template('article/edit.html', form=form)
 @bp_article.route('/delete')
 def delete():
     id = request.args.get('id')

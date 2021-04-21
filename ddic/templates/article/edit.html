@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col text-center">
-                    <h1><a href = "{{url_for('article.edit', id=form.id)}}">修改文章</a></h1>
+                    <h1><a href = "{{url_for('article.edit', id=form.id.data)}}">修改文章</a></h1>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
               </div>
               <div class="mb-3">
                   <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i>&nbsp;&nbsp;保存</button>
-                  <a href = "{{ url_for('article.index', authorid=author.id) }}" class="btn btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;返回</a>
+                  <a href = "{{ url_for('article.index', authorid=form.author_id.data) }}" class="btn btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;返回</a>
               </div>
               {{ form.id() }}
               {{ form.author_id() }}

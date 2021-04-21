@@ -41,7 +41,7 @@ def edit():
         db.session.commit()
         flash('修改成功！')
         return redirect(url_for('.edit', id=form.id.data))
-    return render_template('author/edit.html', form=form)
+    return render_template('author/edit.html', form=form,author=author)
 @bp_author.route('/delete')
 def delete():
     id = request.args.get('id')
