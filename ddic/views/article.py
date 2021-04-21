@@ -46,3 +46,11 @@ def edit():
         flash('修改成功!')
         return redirect(url_for('.edit', id=form.id.data))
     return render_template('article/edit.html', form=form, author=author)
+@bp_article.route('/delete')
+def delete():
+    id = request.args.get('id')
+    article = TbArticle.query.get(id)
+    author_id = article.author_id
+    db.session.delete(article)
+    db.session.commit()
+    return redirect(url_for('.index', authorid=author_id))

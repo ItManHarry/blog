@@ -35,3 +35,24 @@ class TbArticle(db.Model):
 
     def __repr__(self):
         return "<Article %s>" %self.title
+
+
+association_table = db.Table('association',
+    db.Column('student_id', db.String(40), db.ForeignKey('student.id')),
+    db.Column('teacher_id', db.String(40), db.ForeignKey('teacher.id'))
+)
+
+
+class Student(db.Model):
+    id = db.Column(db.String(40), primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    grade = db.Column(db.String(10))
+    clazz = db.Column(db.String(10))
+    teachers = db.relationship('Teacher', secondary=association_table, back_populates='students')
+
+
+class Teacher(db.Model):
+    id = db.Column(db.String(40), primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    subject = db.Column(db.String(10))
+    students = db.relationship('Student', secondary=association_table, back_populates='teachers')

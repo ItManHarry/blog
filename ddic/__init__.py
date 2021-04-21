@@ -1,5 +1,5 @@
 from flask import Flask,render_template
-from ddic.exts import bootstrap,moment,mail,ckeditor,db
+from ddic.exts import bootstrap,moment,mail,ckeditor,db,migrate
 from ddic.settings import config
 from ddic.views.board import bp_board
 from ddic.views.author import bp_author
@@ -56,6 +56,7 @@ def register_extensions(app):
     mail.init_app(app)
     ckeditor.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
 #注册shell环境
 def register_shell_context(app):
     @app.shell_context_processor
@@ -71,6 +72,5 @@ def register_web_views(app):
 def register_web_command(app):
     @app.cli.command()
     def initdb():
-        from ddic.models import TbMessage
         db.create_all()
         click.echo('数据库初始化完成！！！')
