@@ -4,6 +4,7 @@ from ddic.settings import config
 from ddic.views.board import bp_board
 from ddic.views.author import bp_author
 from ddic.views.article import bp_article
+from ddic.models import Admin,Category
 import click
 #创建Flask实例
 def create_app(config_name=None):
@@ -38,6 +39,9 @@ def register_web_global_routes(app):
         return render_template('index.html')
 #配置错误页面跳转
 def register_web_errors(app):
+    @app.errorhandler(400)
+    def request_invalid(e):
+        return render_template('errors/400.html'), 400
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('errors/404.html'), 404
@@ -49,6 +53,11 @@ def register_template_globals(app):
     from ddic.utils import get_time
     app.jinja_env.globals['get_time'] = get_time
     app.jinja_env.globals['admin_name'] = 'Harry.Cheng'
+    @app.context_processor
+    def make_template_context():
+        admin = Admin.query.first()
+        categories = Category.query.order_by(Category.name).all()
+        return dict(admin=admin, categories=categories)
 #注册扩展组件
 def register_extensions(app):
     bootstrap.init_app(app)

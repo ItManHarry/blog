@@ -1,0 +1,15 @@
+{% if categories %}
+<div class="card" style="width: 18rem;">
+  <div class="card-header">
+    Categories
+  </div>
+  <ul class="list-group list-group-flush">
+      {% for category in categories %}
+
+      {% endfor %}
+    <li class="list-group-item">An item</li>
+    <li class="list-group-item">A second item</li>
+    <li class="list-group-item">A third item</li>
+  </ul>
+</div>
+{% endif %}

@@ -1,17 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'parent.html' %}
 {% block title %}留言板{% endblock %}
-<header>
-    {% block header %}
-        <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <h1><a href = "{{url_for('board.index')}}">博客-留言板</a></h1>
-                    <small>Administrator : {{ admin_name }}</small>
-                </div>
-            </div>
-        </div>
-    {% endblock %}
-</header>
 {% block main %}
 <div class="container">
     {% if get_flashed_messages() %}
