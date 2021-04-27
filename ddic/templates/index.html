@@ -3,9 +3,12 @@
 {% block main %}
 <div class="container">
     <div class="row">
-        <div class="col text-center">
+        <div class="col-9">
           <h1>{{ admin.blog_title|default('My Blog') }}</h1>
           <samll>{{ admin.blog_sub_title|default('My blog sub title !!!') }}</samll>
+        </div>
+        <div class="col-3">
+            {% include '_sidebar.html' %}
         </div>
     </div>
 </div>

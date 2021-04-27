@@ -37,6 +37,11 @@ def register_web_global_routes(app):
     @app.route('/')
     def index():
         return render_template('index.html')
+    @app.route('/login')
+    def login():
+        from ddic.forms.all import LoginForm
+        form = LoginForm()
+        return render_template('login/login.html', form=form)
 #配置错误页面跳转
 def register_web_errors(app):
     @app.errorhandler(400)

@@ -3,9 +3,9 @@
 '''
 import os
 #开发数据库
-dev_db = 'sqlite:///'+os.path.join('d:\\development\\sqlite3', 'db\\data.db')
+dev_db = os.getenv('DEVELOP_DB')
 #生产数据库
-pro_db = 'mysql+pymysql://root:root2019@localhost:3306/blog'
+pro_db = os.getenv('PRODUCT_DB')
 class BaseConfig():
     # 系统秘钥(session等使用必须配置)
     SECRET_KEY = os.getenv('SECRET_KEY', 'secretkey0001')

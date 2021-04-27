@@ -1,6 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField,HiddenField
+from wtforms import StringField, TextAreaField,HiddenField,PasswordField,BooleanField,SubmitField
 from wtforms.validators import DataRequired, Length
+#登录Form
+class LoginForm(FlaskForm):
+    username = StringField('User Name',validators=[DataRequired('请输入用户名!'),Length(1, 20)])
+    password = PasswordField('Password',validators=[DataRequired('请输入密码!'),Length(8,128)])
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Login')
 #作者form
 class AuthorForm(FlaskForm):
     name = StringField('姓名', validators=[DataRequired('请输入姓名!'), Length(2, 20, '长度要介于(2-20)！')])

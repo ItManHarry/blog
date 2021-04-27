@@ -69,29 +69,29 @@ class Admin(db.Model):
 #博客表-分类
 class Category(db.Model):
     id = db.Column(db.String(32), primary_key=True)
-    name = db.Column(db.String(30),unique=True)
-    posts = db.relationship('Post',back_populates='category')
+    name = db.Column(db.String(30),unique=True)                 #分类名称
+    posts = db.relationship('Post',back_populates='category')   #类别文章
 #博客表-文章
 class Post(db.Model):
     id = db.Column(db.String(32), primary_key=True)
-    title = db.Column(db.String(100))
-    body = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    category_id = db.Column(db.String(32), db.ForeignKey('category.id'))
-    category = db.relationship('Category', back_populates='posts')
-    comments = db.relationship('Comment', back_populates='post',cascade='all')
+    title = db.Column(db.String(100))                                           #文章标题
+    body = db.Column(db.Text)                                                   #文章内容
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)     #发表时间
+    category_id = db.Column(db.String(32), db.ForeignKey('category.id'))        #所属分类ID-外键
+    category = db.relationship('Category', back_populates='posts')              #所属分类-反向关联
+    comments = db.relationship('Comment', back_populates='post',cascade='all')  #文章评论-反向关联
 #博客表-评论
 class Comment(db.Model):
     id = db.Column(db.String(32), primary_key=True)
-    author = db.Column(db.String(30))
-    email = db.Column(db.String(254))
-    site = db.Column(db.String(255))
-    body = db.Column(db.Text)
-    from_admin = db.Column(db.Boolean, default=False)
-    reviewed = db.Column(db.Boolean, default=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    post_id = db.Column(db.String(32), db.ForeignKey('post.id'))
-    comment_id = db.Column(db.String(32), db.ForeignKey('comment.id'))
-    replied = db.relationship('Comment', back_populates='replies', remote_side=[id])
-    replies = db.relationship('Comment', back_populates='replied', cascade='all')
-    post = db.relationship('Post', back_populates='comments')
+    author = db.Column(db.String(30))                                                   #作者
+    email = db.Column(db.String(254))                                                   #邮箱
+    site = db.Column(db.String(255))                                                    #地址
+    body = db.Column(db.Text)                                                           #评论内容
+    from_admin = db.Column(db.Boolean, default=False)                                   #来着博主
+    reviewed = db.Column(db.Boolean, default=False)                                     #已审核
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)             #发表时间
+    post_id = db.Column(db.String(32), db.ForeignKey('post.id'))                        #文章ID-外键
+    post = db.relationship('Post', back_populates='comments')                           #文章-反向关联
+    comment_id = db.Column(db.String(32), db.ForeignKey('comment.id'))                  #评论ID-自身外键
+    replied = db.relationship('Comment', back_populates='replies', remote_side=[id])    #父评论-反向关联
+    replies = db.relationship('Comment', back_populates='replied', cascade='all')       #子评论-反向关联

@@ -41,7 +41,7 @@
                     <div class="collapse navbar-collapse" id="navbarText">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                          <a class="nav-link" aria-current="page" href="{{url_for('index')}}">Home</a>
+                          {{ render_nav_item('index', 'Home') }}
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="#">Features</a>
@@ -50,10 +50,15 @@
                             {{ render_nav_item('board.index', 'Board') }}
                         </li>
                       </ul>
-                      <span class="navbar-text">
-                        {{ admin.blog_title|default('My Blog') }}
-                        ({{ admin.blog_sub_title|default('My blog sub title !!!')}})
-                      </span>
+                      {% if session['logined'] %}
+                        <span class="navbar-text">
+                            {{ admin.blog_title|default('My Blog') }}
+                            ({{ admin.blog_sub_title|default('My blog sub title !!!')}})
+                        </span>&nbsp;&nbsp;
+                        <a href="#" class="btn btn-outline-secondary"><i class="fas fa-sign-out-alt"></i></a>
+                      {% else %}
+                        <a href="{{ url_for('login')}}" class="btn btn-outline-secondary"><i class="fas fa-sign-in-alt"></i></a>
+                      {% endif %}
                     </div>
                 </div>
             </nav>
