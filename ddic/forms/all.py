@@ -13,7 +13,7 @@ class LoginForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired('请输入标题！！！'), Length(1, 60, '标题必须满足1-60个字符!!!')])
     category = SelectField('分类')
-    body = CKEditorField('内容', validators=[DataRequired()])
+    body = CKEditorField('内容', validators=[DataRequired('请输入正文!!!')])
     submit = SubmitField('发布')
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)

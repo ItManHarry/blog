@@ -7,7 +7,7 @@
             <h1>{{ admin.blog_title|default('My Blog') }}</h1>
             <samll>{{ admin.blog_sub_title|default('My blog sub title !!!') }}</samll>
         </div>
-    </div>
+    </div><br>
     <div class="row">
         <div class="col-9">
             {% if posts %}
@@ -31,7 +31,7 @@
             {% else %}
                 <div class = "tip">
                     <h5>还没有发表文章!!!</h5>
-                    <small><a href="#"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;现在写</a></small>
+                    <small><a href="{{ url_for('blog.add') }}"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;现在写</a></small>
                 </div>
             {% endif %}
         </div>
