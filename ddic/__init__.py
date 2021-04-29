@@ -1,9 +1,10 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,redirect,url_for
 from ddic.exts import bootstrap,moment,mail,ckeditor,db,migrate
 from ddic.settings import config
 from ddic.views.board import bp_board
 from ddic.views.author import bp_author
 from ddic.views.article import bp_article
+from ddic.views.blog import bp_blog
 from ddic.models import Admin,Category
 import click
 #创建Flask实例
@@ -36,7 +37,7 @@ def register_web_global_routes(app):
         return '<h1>Hello !</h1>'
     @app.route('/')
     def index():
-        return render_template('index.html')
+        return redirect(url_for('blog.index'))
     @app.route('/login')
     def login():
         from ddic.forms.all import LoginForm
@@ -81,6 +82,7 @@ def register_web_views(app):
     app.register_blueprint(bp_board, url_prefix='/board')
     app.register_blueprint(bp_author, url_prefix='/author')
     app.register_blueprint(bp_article, url_prefix='/article')
+    app.register_blueprint(bp_blog, url_prefix='/blog')
 
 #注册自定义命令
 def register_web_command(app):

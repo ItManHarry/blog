@@ -85,7 +85,7 @@ class Comment(db.Model):
     id = db.Column(db.String(32), primary_key=True)
     author = db.Column(db.String(30))                                                   #作者
     email = db.Column(db.String(254))                                                   #邮箱
-    site = db.Column(db.String(255))                                                    #地址
+    site = db.Column(db.String(255))                                                    #个人网址
     body = db.Column(db.Text)                                                           #评论内容
     from_admin = db.Column(db.Boolean, default=False)                                   #来着博主
     reviewed = db.Column(db.Boolean, default=False)                                     #已审核

@@ -12,6 +12,8 @@ class BaseConfig():
     #print('SECRET_KEY is : %s' %SECRET_KEY)
     # Bootstrap加载本地资源
     BOOTSTRAP_SERVE_LOCAL = True
+    #分页显示,每页的数量
+    ITEM_COUNT_PER_PAGE=10
 #开发环境配置
 class DevConfig(BaseConfig):
     # 数据库配置

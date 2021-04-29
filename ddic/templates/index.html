@@ -3,9 +3,37 @@
 {% block main %}
 <div class="container">
     <div class="row">
+        <div class="col">
+            <h1>{{ admin.blog_title|default('My Blog') }}</h1>
+            <samll>{{ admin.blog_sub_title|default('My blog sub title !!!') }}</samll>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-9">
-          <h1>{{ admin.blog_title|default('My Blog') }}</h1>
-          <samll>{{ admin.blog_sub_title|default('My blog sub title !!!') }}</samll>
+            {% if posts %}
+                {% for post in posts %}
+                    <h3 class="text-primary">
+                        <a href="#">{{ post.title }}</a>
+                    </h3>
+                    <p>
+                        {{ post.body|striptags|truncate }}
+                        <small>
+                            <a href="#">详细</a>
+                        </small>
+                    </p>
+                    <small>
+                        评论：<a href="#">{{ post.commits|length }}</a>&nbsp;&nbsp;
+                        类别：<a href="#">{{ post.category.name }}</a>
+                        <span class="float-right">{{ moment(post.timestamp).format('LL') }}</span>
+                    </small>
+                    {% if not loop.last %}<hr>{% endif %}
+                {% endfor %}
+            {% else %}
+                <div class = "tip">
+                    <h5>还没有发表文章!!!</h5>
+                    <small><a href="#"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;现在写</a></small>
+                </div>
+            {% endif %}
         </div>
         <div class="col-3">
             {% include '_sidebar.html' %}
