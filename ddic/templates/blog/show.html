@@ -1,0 +1,21 @@
+{% extends 'parent.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="page-header">
+        <h1>{{ post.title }}</h1>
+        <small>
+            类别所属:<a href="#">{{ post.category.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            发布日期:{{ moment(post.timestamp).format('LL')}}
+        </small>
+    </div><br>
+    <div class="row">
+        <div class = "col-9">
+            {{ post.body|safe }}
+        </div>
+        <div class="col-3">
+            {% include '_sidebar.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
