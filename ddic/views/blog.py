@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect,url_for,render_template,session,request,flash,current_app
-from ddic.models import Post
+from ddic.models import Post,Category
 from ddic.forms.all import PostForm
 from ddic.exts import db
 import uuid
@@ -14,6 +14,14 @@ def index(page):
     posts = pagination.items
     #posts = Post.query.order_by(Post.timestamp.desc()).all()
     return render_template('index.html', posts=posts, pagination=pagination)
+@bp_blog.route('/category/<category_id>')
+def show_category(category_id):
+    category = Category.query.get_or_404(category_id)
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['ITEM_COUNT_PER_PAGE']
+    pagination = Post.query.with_parent(category).order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+    posts = pagination.items
+    return render_template('blog/category.html', category=category, posts=posts, pagination=pagination)
 #新增文章
 @bp_blog.route('/add', methods=['GET','POST'])
 def add():

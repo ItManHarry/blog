@@ -6,7 +6,7 @@
   <ul class="list-group list-group-flush">
       {% for category in categories %}
         <li class="list-group-item">
-            <a href="#">{{ category.name }}</a>
+            <a href="{{ url_for('blog.show_category', category_id=category.id) }}">{{ category.name }}</a>
             <span class="badge badge-success float-right">{{ category.posts|length }}</span>
         </li>
       {% endfor %}

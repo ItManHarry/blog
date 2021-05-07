@@ -50,15 +50,19 @@
                             {{ render_nav_item('board.index', 'Board') }}
                         </li>
                       </ul>
-                      {% if session['logined'] %}
-                        <span class="navbar-text">
-                            {{ admin.blog_title|default('My Blog') }}
-                            ({{ admin.blog_sub_title|default('My blog sub title !!!')}})
-                        </span>&nbsp;&nbsp;
-                        <a href="#" class="btn btn-outline-secondary"><i class="fas fa-sign-out-alt"></i></a>
-                      {% else %}
-                        <a href="{{ url_for('login')}}" class="btn btn-outline-secondary"><i class="fas fa-sign-in-alt"></i></a>
-                      {% endif %}
+                    </div>
+                    <div class="row text-right">
+                        <div class="col">
+                            {% if session['logined'] %}
+                                <span class="navbar-text">
+                                    {{ admin.blog_title|default('My Blog') }}
+                                    ({{ admin.blog_sub_title|default('My blog sub title !!!')}})
+                                </span>&nbsp;&nbsp;
+                                <a href="#" class="btn btn-outline-secondary"><i class="fas fa-sign-out-alt"></i></a>
+                            {% else %}
+                                <a href="{{ url_for('login')}}" class="btn btn-outline-secondary"><i class="fas fa-sign-in-alt"></i></a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </nav>
