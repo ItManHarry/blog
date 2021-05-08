@@ -14,6 +14,8 @@ class BaseConfig():
     BOOTSTRAP_SERVE_LOCAL = True
     #分页显示,每页的数量
     ITEM_COUNT_PER_PAGE=10
+    #主题列表
+    BLOG_THEMES = {'bootstrap':'Default','cyborg':'Cyborg','solar':'Solar','united':'United','minty':'Minty','sketchy':'Sketchy'}
 #开发环境配置
 class DevConfig(BaseConfig):
     # 数据库配置

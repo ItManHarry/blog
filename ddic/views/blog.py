@@ -1,7 +1,8 @@
-from flask import Blueprint, redirect,url_for,render_template,session,request,flash,current_app
+from flask import Blueprint, redirect,url_for,render_template,session,request,flash,current_app,abort,make_response
 from ddic.models import Post,Category,Comment
 from ddic.forms.all import PostForm
 from ddic.exts import db
+from ddic.utils import redirect_back
 import uuid
 bp_blog = Blueprint('blog', __name__)
 #博客首页
@@ -48,3 +49,11 @@ def show(post_id):
     pagination = Comment.query.with_parent(post).filter_by(reviewed=True).order_by(Comment.timestamp.asc()).paginate(page, per_page=per_page)
     comments = pagination.items
     return render_template('blog/show.html', post=post, comments=comments, pagination=pagination)
+#主题切换
+@bp_blog.route('/theme/<theme_name>')
+def theme(theme_name):
+    if theme_name not in current_app.config['BLOG_THEMES'].keys():
+        abort(404)
+    response = make_response(redirect_back())
+    response.set_cookie('theme', theme_name, max_age=30*24*60*60)
+    return response
