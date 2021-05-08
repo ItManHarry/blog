@@ -5,10 +5,10 @@ from flask_ckeditor import CKEditorField
 from ddic.models import Category
 #登录表单
 class LoginForm(FlaskForm):
-    username = StringField('User Name',validators=[DataRequired('请输入用户名!'),Length(1, 20)])
-    password = PasswordField('Password',validators=[DataRequired('请输入密码!'),Length(8,128)])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    username = StringField('账号',validators=[DataRequired('请输入用户名!'),Length(1, 20, '长度要介于(1-20)')])
+    password = PasswordField('密码',validators=[DataRequired('请输入密码!'),Length(6, 24, '长度要介于(6-24)')])
+    remember = BooleanField('记住我')
+    submit = SubmitField('登录')
 #文章表单
 class PostForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired('请输入标题！！！'), Length(1, 60, '标题必须满足1-60个字符!!!')])

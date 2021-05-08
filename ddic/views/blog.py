@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect,url_for,render_template,session,request,flash,current_app,abort,make_response
+from flask_login import login_required
 from ddic.models import Post,Category,Comment
 from ddic.forms.all import PostForm
 from ddic.exts import db
@@ -25,6 +26,7 @@ def show_category(category_id):
     return render_template('blog/category.html', category=category, posts=posts, pagination=pagination)
 #新增文章
 @bp_blog.route('/add', methods=['GET','POST'])
+@login_required
 def add():
     form = PostForm()
     if form.validate_on_submit():

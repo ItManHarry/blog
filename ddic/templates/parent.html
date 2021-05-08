@@ -64,14 +64,13 @@
                     </div>
                     <div class="row text-right">
                         <div class="col-12">
-                            {% if session['logined'] %}
+                            {% if current_user.is_authenticated %}
                                 <span class="navbar-text">
-                                    {{ admin.blog_title|default('My Blog') }}
-                                    ({{ admin.blog_sub_title|default('My blog sub title !!!')}})
+                                    Welcome&nbsp;:&nbsp;{{ admin.username|title }}
                                 </span>&nbsp;&nbsp;
-                                <a href="#" class="btn btn-outline-secondary"><i class="fas fa-sign-out-alt"></i></a>
+                                <a href="{{ url_for('auth.logout', next=request.full_path)}}" class="btn btn-outline-secondary"><i class="fas fa-sign-out-alt"></i></a>
                             {% else %}
-                                <a href="{{ url_for('login')}}" class="btn btn-outline-secondary"><i class="fas fa-sign-in-alt"></i></a>
+                                <a href="{{ url_for('auth.login', next=request.full_path)}}" class="btn btn-outline-secondary"><i class="fas fa-sign-in-alt"></i></a>
                             {% endif %}
                         </div>
                     </div>

@@ -1,10 +1,11 @@
 from flask import Flask,render_template,redirect,url_for
-from ddic.exts import bootstrap,moment,mail,ckeditor,db,migrate
+from ddic.exts import bootstrap,moment,mail,ckeditor,db,migrate,login_manager
 from ddic.settings import config
 from ddic.views.board import bp_board
 from ddic.views.author import bp_author
 from ddic.views.article import bp_article
 from ddic.views.blog import bp_blog
+from ddic.views.auth import bp_auth
 from ddic.models import Admin,Category
 import click
 #创建Flask实例
@@ -72,6 +73,7 @@ def register_extensions(app):
     ckeditor.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
+    login_manager.init_app(app)
 #注册shell环境
 def register_shell_context(app):
     @app.shell_context_processor
@@ -83,10 +85,42 @@ def register_web_views(app):
     app.register_blueprint(bp_author, url_prefix='/author')
     app.register_blueprint(bp_article, url_prefix='/article')
     app.register_blueprint(bp_blog, url_prefix='/blog')
+    app.register_blueprint(bp_auth, url_prefix='/auth')
 
 #注册自定义命令
 def register_web_command(app):
+    #初始化系统
     @app.cli.command()
-    def initdb():
+    @click.option('--username', prompt=True, help='管理员账号.')
+    @click.option('--password', prompt=True, hide_input=True, confirmation_prompt=True,help='管理员密码.')
+    def init(username, password):
+        click.echo('执行数据库初始化......')
         db.create_all()
         click.echo('数据库初始化完成！！！')
+        click.echo('创建管理员')
+        admin = Admin.query.first()
+        if admin:
+            click.echo('管理员已存在,执行更新......')
+            admin.username = username
+            admin.set_password(password)
+        else:
+            click.echo('执行创建管理员......')
+            admin = Admin(
+                username=username,
+                blog_title = 'BlueBlog',
+                blog_sub_title = 'If you want to do something, JUST DO IT!!!',
+                name = 'Administrator',
+                about = 'This is a Python blog!'
+            )
+            admin.set_password(password)
+            db.session.add(admin)
+        click.echo('执行创建默认类别......')
+        category = Category.query.first()
+        if category is None:
+            click.echo('创建默认类别......')
+            category = Category(name='Default')
+            db.session.add(category)
+        else:
+            click.echo('类别已有记录,跳过创建......')
+        db.session.commit()
+        click.echo('系统初始化完成......')

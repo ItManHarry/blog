@@ -3,6 +3,8 @@
 '''
 from datetime import datetime
 from ddic.exts import db
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 '''
     留言板表
 '''
@@ -57,15 +59,25 @@ class Teacher(db.Model):
     subject = db.Column(db.String(10))
     students = db.relationship('Student', secondary=association_table, back_populates='teachers')
 
-#博客表-管理员
-class Admin(db.Model):
+'''
+    博客表-管理员
+    UserMixin:flask-login的登录管理模块
+'''
+class Admin(db.Model, UserMixin):
     id = db.Column(db.String(32), primary_key=True)
-    username = db.Column(db.String(40))         #用户账号
-    password_hash = db.Column(db.String(128))   #用户密码
-    blog_title = db.Column(db.String(100))      #博客标题
-    blog_sub_title = db.Column(db.String(120))  #博客副标题
-    name = db.Column(db.String(30))             #用户姓名
-    about = db.Column(db.Text)                  #关于
+    username = db.Column(db.String(40), unique=True)    #用户账号
+    password_hash = db.Column(db.String(128))           #用户密码 - 密文存储
+    blog_title = db.Column(db.String(100))              #博客标题
+    blog_sub_title = db.Column(db.String(120))          #博客副标题
+    name = db.Column(db.String(30))                     #用户姓名
+    about = db.Column(db.Text)                          #关于
+    #设置密码-使用werkzeug.security提供的加密方式
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+    #校验密码
+    def validate_password(self,password):
+        return check_password_hash(self.password_hash, password)
+
 #博客表-分类
 class Category(db.Model):
     id = db.Column(db.String(32), primary_key=True)
