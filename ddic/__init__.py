@@ -8,6 +8,7 @@ from ddic.views.blog import bp_blog
 from ddic.views.auth import bp_auth
 from ddic.models import Admin,Category
 import click
+import uuid
 #创建Flask实例
 def create_app(config_name=None):
     if config_name == None:
@@ -106,6 +107,7 @@ def register_web_command(app):
         else:
             click.echo('执行创建管理员......')
             admin = Admin(
+                id = uuid.uuid4().hex,
                 username=username,
                 blog_title = 'BlueBlog',
                 blog_sub_title = 'If you want to do something, JUST DO IT!!!',
