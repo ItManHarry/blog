@@ -42,17 +42,35 @@
                     <div class="collapse navbar-collapse" id="navbarText">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                          {{ render_nav_item('blog.index', 'Home') }}
+                          {{ render_nav_item('blog.index', '主页') }}
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            {{ render_nav_item('board.index', 'Board') }}
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              新增
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('blog.add') }}">文章</a>
+                                <a class="dropdown-item" href="#">分类</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Theme
+                              管理
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">文章<span class="badge badge-success float-right">{{ post_cout }}</span></a>
+                                <a class="dropdown-item" href="#">分类<span class="badge badge-success float-right">{{ categories|length }}</span></a>
+                                <a class="dropdown-item" href="#">评论<span class="badge badge-success float-right">{{ unread_comments }}</span></a>
+                            </div>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            {{ render_nav_item('board.index', '留言板') }}
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              主题
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {% for theme_name, show_name in config['BLOG_THEMES'].items() %}

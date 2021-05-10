@@ -18,11 +18,11 @@ class BaseConfig():
     BLOG_THEMES = {
         'bootstrap':'Default',
         'cyborg':'Cyborg',
-        'solar':'Solar',
+        #'solar':'Solar',
         'united':'United',
         'minty':'Minty',
         'sketchy':'Sketchy',
-        'morph':'Morph',
+        #'morph':'Morph',
         'spacelab':'Spacelab'
     }
 #开发环境配置

@@ -1,12 +1,15 @@
-from flask import Flask,render_template,redirect,url_for
-from ddic.exts import bootstrap,moment,mail,ckeditor,db,migrate,login_manager
+from flask import Flask,render_template,redirect,url_for,make_response
+from flask_wtf.csrf import CSRFError
+from flask_login import current_user
+from ddic.exts import bootstrap,moment,mail,ckeditor,db,migrate,login_manager,csrf
 from ddic.settings import config
 from ddic.views.board import bp_board
 from ddic.views.author import bp_author
 from ddic.views.article import bp_article
 from ddic.views.blog import bp_blog
 from ddic.views.auth import bp_auth
-from ddic.models import Admin,Category
+from ddic.models import Admin,Category,Comment,Post
+from ddic.utils import redirect_back
 import click
 import uuid
 #创建Flask实例
@@ -40,11 +43,10 @@ def register_web_global_routes(app):
     @app.route('/')
     def index():
         return redirect(url_for('blog.index'))
-    @app.route('/login')
-    def login():
-        from ddic.forms.all import LoginForm
-        form = LoginForm()
-        return render_template('login/login.html', form=form)
+    @app.route('/back')
+    def go_back():
+        response = make_response(redirect_back())
+        return response
 #配置错误页面跳转
 def register_web_errors(app):
     @app.errorhandler(400)
@@ -56,6 +58,9 @@ def register_web_errors(app):
     @app.errorhandler(500)
     def inner_error(e):
         return render_template('errors/500.html'), 500
+    @app.errorhandler(CSRFError)
+    def csrf_error(e):
+        return render_template('errors/csrf.html')
 #注册全局函数&变量
 def register_template_globals(app):
     from ddic.utils import get_time
@@ -63,9 +68,14 @@ def register_template_globals(app):
     app.jinja_env.globals['admin_name'] = 'Harry.Cheng'
     @app.context_processor
     def make_template_context():
-        admin = Admin.query.first()
-        categories = Category.query.order_by(Category.name).all()
-        return dict(admin=admin, categories=categories)
+        admin = Admin.query.first()                                                 #管理员
+        categories = Category.query.order_by(Category.name).all()                   #文章分类
+        post_cout = Post.query.count()                                              #文章数量
+        if current_user.is_authenticated:
+            unread_comments = Comment.query.filter_by(reviewed=False).count()       #未读评论
+        else:
+            unread_comments = None
+        return dict(admin=admin, categories=categories,unread_comments=unread_comments,post_cout=post_cout)
 #注册扩展组件
 def register_extensions(app):
     bootstrap.init_app(app)
@@ -75,6 +85,7 @@ def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    csrf.init_app(app)
 #注册shell环境
 def register_shell_context(app):
     @app.shell_context_processor
@@ -87,7 +98,6 @@ def register_web_views(app):
     app.register_blueprint(bp_article, url_prefix='/article')
     app.register_blueprint(bp_blog, url_prefix='/blog')
     app.register_blueprint(bp_auth, url_prefix='/auth')
-
 #注册自定义命令
 def register_web_command(app):
     #初始化系统

@@ -77,7 +77,7 @@
                       <td>
                           <a href="{{ url_for('article.index', authorid=author.id)}}" class="btn btn-outline-info btn-sm"><i class="fas fa-file-alt"></i>&nbsp;文章</a>
                           <a href="{{ url_for('author.edit', id=author.id) }}" class="btn btn-outline-success btn-sm"><i class="fas fa-edit"></i>&nbsp;编辑</a>
-                          <a href="{{ url_for('author.delete', id=author.id)}}" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i>&nbsp;删除</a>
+                          <a href="javascript:doDelete('{{url_for('author.delete', id=author.id)}}')" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i>&nbsp;删除</a>
                       </td>
                     </tr>
                 {% endfor %}
@@ -90,6 +90,26 @@
 <script>
     {% block function%}
     {{ super() }}
-
+    function doDelete(url){
+        $.confirm({
+            title: '提示!',
+            content: '确定要删除？',
+            boxWidth: '25%',
+            useBootstrap: false,
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                cancel:{
+                    text:"取消"
+                },
+                confirm:{
+                    text:"确定",
+                    action:function () {
+                        window.location.href = url
+                    }
+                }
+            }
+        });
+    }
     {% endblock %}
 </script>

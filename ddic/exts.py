@@ -8,6 +8,7 @@ from flask_mail import Mail
 from flask_ckeditor import CKEditor
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 #创建扩展实例
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -16,6 +17,7 @@ mail = Mail()
 ckeditor = CKEditor()
 migrate = Migrate()
 login_manager = LoginManager()
+csrf = CSRFProtect()
 '''
     配置login_required对应的跳转信息
 '''

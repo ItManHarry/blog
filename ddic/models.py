@@ -71,6 +71,7 @@ class Admin(db.Model, UserMixin):
     blog_sub_title = db.Column(db.String(120))          #博客副标题
     name = db.Column(db.String(30))                     #用户姓名
     about = db.Column(db.Text)                          #关于
+    logins = db.relationship('Login', back_populates='admin')#登录履历-反向关联
     #设置密码-使用werkzeug.security提供的加密方式
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -107,3 +108,9 @@ class Comment(db.Model):
     comment_id = db.Column(db.String(32), db.ForeignKey('comment.id'))                  #评论ID-自身外键
     replied = db.relationship('Comment', back_populates='replies', remote_side=[id])    #父评论-反向关联
     replies = db.relationship('Comment', back_populates='replied', cascade='all')       #子评论-反向关联
+#登录履历
+class Login(db.Model):
+    id = db.Column(db.String(32), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)  #登录时间
+    admin_id = db.Column(db.String(32), db.ForeignKey('admin.id'))           #登录账号
+    admin = db.relationship('Admin', back_populates='logins')                #登录人员-反向关联
