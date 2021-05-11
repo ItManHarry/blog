@@ -3,6 +3,7 @@ from flask_login import login_required
 from ddic.forms.all import PostForm
 from ddic.exts import db
 from ddic.models import Post
+from ddic.utils import redirect_back
 import uuid
 bp_admin = Blueprint('admin', __name__)
 @bp_admin.route('/', defaults={'page':1})
@@ -29,3 +30,12 @@ def add_post():
         flash('文章发布成功!!!')
         return redirect(url_for('.add_post'))
     return render_template('admin/add_post.html', form=form)
+#删除文章
+@bp_admin.route('/post/del/<post_id>', methods=['POST'])
+def del_post(post_id):
+    #返回当前文章列表
+    print('Now do the post delete action , post id is %s' %post_id)
+    post = Post.query.get(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect_back()
