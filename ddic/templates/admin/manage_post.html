@@ -3,14 +3,16 @@
 {% block title %}文章管理{% endblock %}
 {% block main %}
 <div class="container">
-    <div class="page-header">
-        <h1>
-            <small class="text-muted">文章&nbsp;&nbsp;{{ pagination.total }}</small>
-            <span class="float-right">
-                <a href = "{{ url_for('admin.add_post') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i>&nbsp;新增</a>
-            </span>
-        </h1>
-    </div><br>
+    <div class="row">
+        <div class="col-10">
+            <h1>
+                <small class="text-muted">文章&nbsp;&nbsp;{{ pagination.total }}</small>
+            </h1>
+        </div>
+        <div class="col-2 text-right">
+            <a href = "{{ url_for('admin.add_post') }}" class="btn btn-outline-info"><i class="fas fa-plus"></i>&nbsp;新增</a>
+        </div>
+    </div>
     {% if posts %}
         <table class="table table-hover">
             <thead>
@@ -26,7 +28,7 @@
                 {% for post in posts %}
                     <tr>
                         <td>{{ loop.index + ((pagination.page - 1) * config.ITEM_COUNT_PER_PAGE)}}</td>
-                        <td><a href="{{ url_for('blog.show', post_id=post.id) }}" target="_blank">{{ post.title }}</a> </td>
+                        <td><a href="{{ url_for('blog.show', post_id=post.id) }}" target="_blank" class="text-secondary">{{ post.title }}</a> </td>
                         <td>{{ post.category.name }}</td>
                         <td>{{ moment(post.timestamp).format('LL') }}</td>
                         <td>{{ post.comments|length }}</td>
@@ -34,12 +36,12 @@
                         <td>
                             <div class="row">
                                 <div class="col-3">
-                                    <a href="#" class="btn btn-outline-success btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="#" class="btn btn-link text-success"><i class="fas fa-edit"></i></a>
                                 </div>
                                 <div class="col-3">
                                     <form id = "{{ post.id }}" class="inline" method="post" action="{{ url_for('admin.del_post', post_id=post.id, next=request.full_path) }}">
                                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="doDelete('{{ post.id }}')">
+                                        <button type="button" class="btn btn-link text-danger" onclick="doDelete('{{ post.id }}')">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
