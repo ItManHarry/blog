@@ -24,24 +24,6 @@ def show_category(category_id):
     pagination = Post.query.with_parent(category).order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
     posts = pagination.items
     return render_template('blog/category.html', category=category, posts=posts, pagination=pagination)
-#新增文章
-@bp_blog.route('/add', methods=['GET','POST'])
-@login_required
-def add():
-    form = PostForm()
-    if form.validate_on_submit():
-        #print('Title : ', form.title.data, ', category : ', form.category.data, ', body : ', form.body.data)
-        post = Post(
-            id=uuid.uuid4().hex,
-            title=form.title.data,
-            category_id=form.category.data,
-            body=form.body.data
-        )
-        db.session.add(post)
-        db.session.commit()
-        flash('文章发布成功!!!')
-        return redirect(url_for('.add'))
-    return render_template('blog/add.html', form=form)
 #文章详情
 @bp_blog.route('/show/<post_id>')
 def show(post_id):

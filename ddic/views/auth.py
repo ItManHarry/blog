@@ -1,5 +1,5 @@
-from flask import Blueprint, redirect,url_for,render_template,session,request,flash,current_app,abort,make_response
-from flask_login import login_user,current_user,logout_user, login_required
+from flask import Blueprint, redirect,url_for,render_template,flash
+from flask_login import login_user,current_user,logout_user
 from ddic.models import Admin,Login
 from ddic.forms.all import LoginForm
 from ddic.exts import db
@@ -12,8 +12,6 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('blog.index'))
     form = LoginForm()
-    next = request.args.get('next')
-    print('Request path is >>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ' , next)
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
