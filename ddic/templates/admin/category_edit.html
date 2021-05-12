@@ -1,5 +1,5 @@
 {% extends 'parent.html' %}
-{% block title %}修改文章{% endblock %}
+{% block title %}修改类别{% endblock %}
 {% block scripts %}
     {{ static_file('js','ckeditor/ckeditor.js') }}
 {% endblock %}
@@ -25,25 +25,10 @@
             <form method="post">
                 {{form.csrf_token }}
                 <div class="form-group">
-                    {{form.title.label}}
-                    {{form.title(class='form-control')}}
-                    {% if form.title.errors %}
-                        {% for message in form.title.errors %}
-                            <small class="text-danger">
-                                {{ message }}
-                            </small>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.category.label }}
-                    {{ form.category(class='form-control') }}
-                </div>
-                <div class="form-group">
-                    {{form.body.label}}
-                    {{form.body(class='ckeditor')}}
-                    {% if form.body.errors %}
-                        {% for message in form.body.errors %}
+                    {{form.name.label}}
+                    {{form.name(class='form-control')}}
+                    {% if form.name.errors %}
+                        {% for message in form.name.errors %}
                             <small class="text-danger">
                                 {{ message }}
                             </small>
@@ -53,7 +38,7 @@
                 <div class="form-group">
                     {{form.id}}
                     <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i>&nbsp;&nbsp;修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href = "{{ url_for('admin.manage_post') }}" class="btn btn-outline-secondary"><i class="fas fa-ban"></i>&nbsp;&nbsp;取消</a>
+                    <a href = "{{ url_for('admin.manage_category') }}" class="btn btn-outline-secondary"><i class="fas fa-ban"></i>&nbsp;&nbsp;取消</a>
                 </div>
             </form>
         </div>

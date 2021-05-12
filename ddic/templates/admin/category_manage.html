@@ -1,0 +1,80 @@
+{% extends 'parent.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination with context %}
+{% block title %}文章管理{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <h1>
+                <small class="text-muted">类别&nbsp;&nbsp;{{ pagination.total }}</small>
+            </h1>
+        </div>
+        <div class="col-2 text-right">
+            <a href = "{{ url_for('admin.add_category') }}" class="btn btn-outline-info"><i class="fas fa-plus"></i>&nbsp;新增</a>
+        </div>
+    </div>
+    {% if categories %}
+        <table class="table table-hover">
+            <thead>
+                <th>No.</th>
+                <th>类别名称</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ loop.index + ((pagination.page - 1) * config.ITEM_COUNT_PER_PAGE)}}</td>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-1">
+                                    <a href="{{ url_for('admin.edit_category', category_id=category.id) }}" class="btn btn-link text-success"><i class="fas fa-edit"></i></a>
+                                </div>
+                                <div class="col-1">
+                                    <form id = "{{ category.id }}" class="inline" method="post" action="{{ url_for('admin.del_category', category_id=category.id, next=request.full_path) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                        <button type="button" class="btn btn-link text-danger" onclick="doDelete('{{ category.id }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="page-footer">
+            {{ render_pagination(pagination) }}
+        </div>
+    {% else %}
+        <div class="tip"><h5>还未发表文章!!!</h5></div>
+    {% endif %}
+</div>
+{% endblock %}
+<script>
+    {% block function%}
+    {{ super() }}
+    function doDelete(formId){
+        $.confirm({
+            title: '提示!',
+            content: '确定要删除？',
+            boxWidth: '25%',
+            useBootstrap: false,
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                cancel:{
+                    text:"取消"
+                },
+                confirm:{
+                    text:"确定",
+                    action:function () {
+                        $('#'+formId).submit()
+                    }
+                }
+            }
+        });
+    }
+    {% endblock %}
+</script>
