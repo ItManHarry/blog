@@ -36,7 +36,7 @@
                         <td>
                             <div class="row">
                                 <div class="col-3">
-                                    <a href="#" class="btn btn-link text-success"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ url_for('admin.edit_post', post_id=post.id) }}" class="btn btn-link text-success"><i class="fas fa-edit"></i></a>
                                 </div>
                                 <div class="col-3">
                                     <form id = "{{ post.id }}" class="inline" method="post" action="{{ url_for('admin.del_post', post_id=post.id, next=request.full_path) }}">
