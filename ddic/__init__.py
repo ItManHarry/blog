@@ -113,9 +113,7 @@ def register_web_command(app):
         click.echo('创建管理员')
         admin = Admin.query.first()
         if admin:
-            click.echo('管理员已存在,执行更新......')
-            admin.username = username
-            admin.set_password(password)
+            click.echo('管理员已存在,跳过创建......')
         else:
             click.echo('执行创建管理员......')
             admin = Admin(
@@ -132,7 +130,7 @@ def register_web_command(app):
         category = Category.query.first()
         if category is None:
             click.echo('创建默认类别......')
-            category = Category(name='Default')
+            category = Category(id=uuid.uuid4().hex,name='默认')
             db.session.add(category)
         else:
             click.echo('类别已有记录,跳过创建......')

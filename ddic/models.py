@@ -93,6 +93,7 @@ class Post(db.Model):
     category_id = db.Column(db.String(32), db.ForeignKey('category.id'))        #所属分类ID-外键
     category = db.relationship('Category', back_populates='posts')              #所属分类-反向关联
     comments = db.relationship('Comment', back_populates='post',cascade='all')  #文章评论-反向关联
+    post_comments = db.relationship('PostComment', back_populates='post', cascade='all')   #文章简单评论-反向关联
 #博客表-评论
 class Comment(db.Model):
     id = db.Column(db.String(32), primary_key=True)
@@ -108,6 +109,13 @@ class Comment(db.Model):
     comment_id = db.Column(db.String(32), db.ForeignKey('comment.id'))                  #评论ID-自身外键
     replied = db.relationship('Comment', back_populates='replies', remote_side=[id])    #父评论-反向关联
     replies = db.relationship('Comment', back_populates='replied', cascade='all')       #子评论-反向关联
+# 博客表-简单评论
+class PostComment(db.Model):
+    id = db.Column(db.String(32), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)     # 评论时间
+    body = db.Column(db.Text)                                                   # 评论内容
+    post_id = db.Column(db.String(32), db.ForeignKey('post.id'))                # 文章ID-外键
+    post = db.relationship('Post', back_populates='post_comments')              # 文章-反向关联
 #登录履历
 class Login(db.Model):
     id = db.Column(db.String(32), primary_key=True)

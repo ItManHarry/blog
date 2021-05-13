@@ -40,6 +40,12 @@ class CommitForm(FlaskForm):
     body = TextAreaField('评论' , validators=[DataRequired('请输入评论！')])
     id = HiddenField()
     submit = SubmitField('发表')
+
+# 评论表单2
+class PostCommitForm(FlaskForm):
+    body = TextAreaField('评论', validators=[DataRequired('请输入评论！')])
+    id = HiddenField()
+    submit = SubmitField('发表')
 #管理员评论表单
 class AdminCommitForm(CommitForm):
     author = HiddenField()

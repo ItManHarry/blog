@@ -65,7 +65,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">文章<span class="badge badge-success float-right">{{ post_cout }}</span></a>
                                 <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">分类<span class="badge badge-success float-right">{{ categories|length }}</span></a>
-                                <a class="dropdown-item" href="#">评论<span class="badge badge-success float-right">{{ unread_comments }}</span></a>
+                                <!--a class="dropdown-item" href="#">评论<span class="badge badge-success float-right">{{ unread_comments }}</span></a-->
                             </div>
                         </li>
                         {% endif %}

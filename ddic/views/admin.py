@@ -82,7 +82,7 @@ def add_category():
     return render_template('admin/category_add.html', form=form)
 #修改类别
 @bp_admin.route('/category/edit/<category_id>', methods=['GET','POST'])
-def edit_category(category_id):
+def edit_category(h):
     category = Category.query.get_or_404(category_id)
     form = CategoryForm()
     if form.validate_on_submit():
