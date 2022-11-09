@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField,HiddenField,PasswordField,BooleanField,SubmitField,SelectField
+from wtforms import StringField, TextAreaField,HiddenField,PasswordField,BooleanField,SubmitField,SelectField,validators
 from wtforms.validators import DataRequired, Length, ValidationError, Email, URL,Optional
 from flask_ckeditor import CKEditorField
 from ddic.models import Category
@@ -9,6 +9,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('密码',validators=[DataRequired('请输入密码!'),Length(6, 24, '长度要介于(6-24)')])
     remember = BooleanField('记住我')
     submit = SubmitField('登录')
+class DepartmentForm(FlaskForm):
+    id = HiddenField()
+    name = StringField('部门名称', validators=[DataRequired('请输入部门名称！！！'), Length(1, 128, '部门名称字数请保持在1-128之间!!!')])
+    root = BooleanField('顶级部门')
+    parents = SelectField('上级部门', [validators.optional()], choices=[])
 #文章表单
 class PostForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired('请输入标题！！！'), Length(1, 60, '标题必须满足1-60个字符!!!')])
@@ -21,7 +26,7 @@ class PostForm(FlaskForm):
         '''
             因为Flask-SQLAlchemy阶赖于程序上下文才能正
             常工作（内部使用current_app获取配置信息），所
-            以这个查询调用妥放到构造方法中执
+            以这个查询调用要放到构造方法中执行
         '''
         self.category.choices=[(category.id, category.name) for category in Category.query.order_by(Category.name).all()]
 #分类表单

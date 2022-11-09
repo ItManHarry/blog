@@ -1,0 +1,44 @@
+{% extends 'parent.html' %}
+{% block title %}部门信息{% endblock %}
+{% block main %}
+<div class="container-fluid">
+    <div class="row">
+        <div class = "col">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="alert alert-primary" role="alert">{{ message }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            <a href="{{url_for('department.add')}}" class="btn btn-outline-primary">新增</a>
+        </div>
+    </div><br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <th>部门代码</th>
+            <th>部门名称</th>
+            <th>上级部门</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {%for department in departments%}
+            <tr>
+                <td>{{department.code}}</td>
+                <td>{{department.name}}</td>
+                <td>{{department.parent.name if department.parent else '-'}}</td>
+                <td><a href="{{url_for('department.edit', id=department.id)}}" class="btn btn-link">编辑</a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

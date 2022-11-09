@@ -9,6 +9,7 @@ from ddic.views.article import bp_article
 from ddic.views.blog import bp_blog
 from ddic.views.auth import bp_auth
 from ddic.views.admin import bp_admin
+from ddic.views.department import bp_department
 from ddic.models import Admin,Category,Comment,Post
 from ddic.utils import redirect_back
 import click
@@ -100,6 +101,7 @@ def register_web_views(app):
     app.register_blueprint(bp_blog, url_prefix='/blog')
     app.register_blueprint(bp_auth, url_prefix='/auth')
     app.register_blueprint(bp_admin, url_prefix='/admin')
+    app.register_blueprint(bp_department, url_prefix='/department')
 #注册自定义命令
 def register_web_command(app):
     #初始化系统
