@@ -122,3 +122,15 @@ class Login(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)  #登录时间
     admin_id = db.Column(db.String(32), db.ForeignKey('admin.id'))           #登录账号
     admin = db.relationship('Admin', back_populates='logins')                #登录人员-反向关联
+class BizDepartment(db.Model):
+    id = db.Column(db.String(32), primary_key=True)
+    code = db.Column(db.String(24))
+    name = db.Column(db.String(128))
+    root = db.Column(db.Boolean, default=False)
+    parent_id = db.Column(db.String(32))
+    @property
+    def parent(self):
+        return BizDepartment.query.get(self.parent_id) if self.parent_id else None
+    @property
+    def children(self):
+        return BizDepartment.query.filter(BizDepartment.parent_id == self.id).order_by(BizDepartment.name).all()
